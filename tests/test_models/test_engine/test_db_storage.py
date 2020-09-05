@@ -78,11 +78,43 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        s = State(**{"name": "California"})
+        u = User(**{"email": "test", "password": "password"})
+        s.save(), u.save()
+        a = models.storage.all()
+        self.assertTrue(s in a.values())
+        self.assertTrue(u in a.values())
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        bf = len(models.storage.all())
+        State(**{"name": "Arizona"}).save()
+        af = len(models.storage.all())
+        self.assertTrue(af > bf)
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
-        """Test that save properly saves objects to file.json"""
+        """Test that save properly saves objects"""
+        bf = len(models.storage.all())
+        State(**{"name": "Colorado"}).save()
+        af = len(models.storage.all())
+        self.assertTrue(af == bf + 1)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        '''Test that get method gets an object correctly'''
+        State(**{'name': 'California'}).save()
+        s = list(models.storage.all(State).values())[0]
+        self.assertEqual(s, models.storage.get(State, s.id))
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        '''Test that count method without class works'''
+        self.assertEqual(len(models.storage.all()), models.storage.count())
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count_class(self):
+        '''Test that count method with class works'''
+        self.assertEqual(len(models.storage.all(State)), models.storage.
+                         count(State))
