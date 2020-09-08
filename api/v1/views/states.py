@@ -12,7 +12,6 @@ def manipulate_state(state_id=None):
     from models import storage
     from models.state import State
     method = request.method
-    print(method, state_id)
     if method == 'GET':
         if state_id is None:
             states = storage.all(State).values()
