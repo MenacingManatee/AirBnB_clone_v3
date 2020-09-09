@@ -39,7 +39,7 @@ def api_place_reviews(place_id=None):
                 incoming_json.update({'place_id': place_id})
                 obj = Review(**incoming_json)
                 obj.save()
-                return jsonify(obj.to_dict())
+                return jsonify(obj.to_dict()), 201
             else:
                 abort(400, 'Not a JSON')
 
@@ -76,6 +76,8 @@ def api_review(review_id=None):
     elif request.method == 'PUT':
         if review_id is not None:
             review = storage.get(Review, review_id)
+            if review is None:
+                abort(404)
             if request.is_json:
                 excl_attrs = ['id', 'user_id', 'place_id',
                               'created_at', 'updated_at']
