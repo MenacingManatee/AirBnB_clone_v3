@@ -6,7 +6,7 @@ from api.v1.views import app_views
 
 @app_views.route('/cities/<city_id>/places', methods=['GET', 'POST'],
                  strict_slashes=False)
-def view_cities(city_id):
+def view_places(city_id):
     '''Returns all places in a city'''
     from models import storage
     from models.city import City
@@ -42,7 +42,7 @@ def view_cities(city_id):
 
 @app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
-def manipulate_city(city_id=None):
+def manipulate_places(city_id=None):
     '''Retrieves, deletes, creates, and updates a Place object'''
     from models import storage
     from models.place import Place
