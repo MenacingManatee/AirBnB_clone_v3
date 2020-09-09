@@ -5,11 +5,12 @@ from api.v1.views import app_views
 from models import storage
 
 
-@app_views.route('places/<place_id>/reviews', methods=['GET', 'POST']
+@app_views.route('places/<place_id>/reviews', methods=['GET', 'POST'],
                  strict_slashes=False)
 def api_place_reviews(place_id=None):
     """I dunno"""
     from models.place import Place
+    from models.review import Review
 
     # Get a specific object
     if request.method == 'GET':
@@ -18,7 +19,7 @@ def api_place_reviews(place_id=None):
             if obj is None:
                 abort(404)
             else:
-                return jsonify([review.to_dict() for review in obj.reviews()])
+                return jsonify([review.to_dict() for review in obj.reviews])
 
     # Create a new object from a JSON request
     elif request.method == 'POST':
@@ -30,10 +31,11 @@ def api_place_reviews(place_id=None):
                 incoming_json = request.get_json()
                 if 'user_id' not in incoming_json.keys():
                     abort(400, 'Missing user_id')
-                elif storage.get(User, incoming_json[user_id]) is None:
+                elif storage.get(User, incoming_json.get('user_id')) is None:
                     abort(404)
                 elif 'text' not in incoming_json.keys():
                     abort(400, 'Missing text')
+                incoming_json.update({'place_id': place_id})
                 obj = Review(**incoming_json)
                 obj.save()
                 return jsonify(obj.to_dict())
@@ -46,6 +48,7 @@ def api_place_reviews(place_id=None):
 def api_review(review_id=None):
     """Creates/updates a Review object"""
     from models.review import Review
+    from models.user import User
 
     # Retrieve an object
     if request.method == 'GET':
@@ -78,7 +81,8 @@ def api_review(review_id=None):
                               'created_at', 'updated_at']
                 incoming_json = request.get_json()
                 for key, value in incoming_json.items():
-                    setattr(review, key, value) if key not in excl_attrs
+                    if key not in excl_attrs:
+                        setattr(review, key, value)
                 review.save()
                 return jsonify(review.to_dict())
             else:
