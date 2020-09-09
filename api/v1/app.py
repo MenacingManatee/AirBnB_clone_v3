@@ -20,7 +20,7 @@ def teardown_fs_db(exception):
 @app.errorhandler(404)
 def api_error(self):
     """Returns an error page when pinged"""
-    return jsonify({"error": "Not Found"}), 404
+    return jsonify({"error": "Not found"}), 404
 
 
 if __name__ == '__main__':
