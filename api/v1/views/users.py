@@ -13,7 +13,7 @@ def api_users(user_id=None):
 
     if method == 'GET':
         if user_id is None:
-            users = storage.all(User).values
+            users = storage.all(User).values()
             return jsonify([user.to_dict() for user in users])
         else:
             obj = storage.get(User, user_id)
