@@ -46,7 +46,7 @@ def api_users(user_id=None):
             abort(404)
         if request.is_json:
             json = request.get_json()
-            for key, value in json.items():
+            for key, val in json.items():
                 setattr(user, key, val)
             user.save()
             return jsonify(user.to_dict())

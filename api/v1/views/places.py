@@ -26,7 +26,7 @@ def view_places(city_id):
                 abort(404)
             jsn.update({"city_id": city_id})
             if 'user_id' in jsn.keys():
-                if storage.get(jsn.get(User, 'user_id')) is not None:
+                if storage.get(User, jsn.get('user_id')) is not None:
                     if 'name' in jsn.keys():
                         place = Place(**jsn)
                         place.save()
@@ -43,7 +43,7 @@ def view_places(city_id):
 
 @app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
-def manipulate_places(city_id=None):
+def manipulate_places(place_id=None):
     '''Retrieves, deletes, creates, and updates a Place object'''
     from models import storage
     from models.place import Place
