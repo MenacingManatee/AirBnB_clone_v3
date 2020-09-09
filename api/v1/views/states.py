@@ -25,6 +25,7 @@ def manipulate_state(state_id=None):
             abort(404)
         else:
             storage.delete(storage.get(State, state_id))
+            storage.save()
             return jsonify({})
     elif method == 'POST':
         if request.is_json:
