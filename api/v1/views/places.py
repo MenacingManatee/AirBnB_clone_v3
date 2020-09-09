@@ -10,6 +10,7 @@ def view_places(city_id):
     '''Returns all places in a city'''
     from models import storage
     from models.city import City
+    from models.user import User
     from models.place import Place
     method = request.method
     if method == 'GET':
