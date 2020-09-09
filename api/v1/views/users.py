@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Cities"""
+"""User"""
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 
@@ -22,7 +22,7 @@ def api_users(user_id=None):
         if user_id is None or storage.get(User, user_id) is None:
             abort(404)
         else:
-            storage.delete(User, user_id)
+            storage.delete(storage.get(User, user_id))
             storage.save()
             return jsonify({})
     elif method == 'POST':
@@ -49,4 +49,4 @@ def api_users(user_id=None):
             user.save()
             return jsonify(user.to_dict())
         else:
-            abort(404, 'Not a JSON')
+            abort(400, 'Not a JSON')
