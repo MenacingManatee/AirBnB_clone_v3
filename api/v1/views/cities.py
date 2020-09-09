@@ -39,7 +39,7 @@ def view_cities(state_id):
 def manipulate_city(city_id=None):
     '''Retrieves, deletes, creates, and updates a City object'''
     from models import storage
-    from models.state import City
+    from models.city import City
     method = request.method
     if method == 'GET':
         if city_id is None or storage.get(City, city_id) is None:
