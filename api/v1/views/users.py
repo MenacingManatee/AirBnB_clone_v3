@@ -3,8 +3,10 @@
 from flask import jsonify, request, abort
 from api.v1.views import app_views
 
+
 @app_views.route('/users', methods=['GET', 'POST'], strict_slashes=False)
-@app_views.route('/users/<user_id>', methods=['GET', 'DELETE', 'PUT'], strict_slashes=False)
+@app_views.route('/users/<user_id>', methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def api_users(user_id=None):
     """Retrives, deletes, creates and updates a User object"""
     from models import storage
