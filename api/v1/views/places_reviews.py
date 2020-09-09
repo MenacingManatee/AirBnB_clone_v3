@@ -11,6 +11,7 @@ def api_place_reviews(place_id=None):
     """I dunno"""
     from models.place import Place
     from models.review import Review
+    from models.user import User
 
     # Get a specific object
     if request.method == 'GET':
@@ -48,7 +49,6 @@ def api_place_reviews(place_id=None):
 def api_review(review_id=None):
     """Creates/updates a Review object"""
     from models.review import Review
-    from models.user import User
 
     # Retrieve an object
     if request.method == 'GET':
