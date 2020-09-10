@@ -38,11 +38,6 @@ def manipulate_places_amenity(place_id, amenity_id=None):
         if amenity_id in place.amenities:
             return jsonify(amenity.to_dict()), 200
         else:
-            '''a_ids = getattr(place, 'amenities')
-            if a_ids is None:
-                setattr(place, 'amenities', [amenity_id])
-            else:'''
             place.amenities.append(amenity)
-            #setattr(place, 'amenities', getattr(place, 'amenities').append(amenity.id))
             place.save()
             return jsonify(amenity.to_dict()), 201
